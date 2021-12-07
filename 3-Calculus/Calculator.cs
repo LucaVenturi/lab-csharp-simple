@@ -28,5 +28,50 @@ namespace Calculus
         public const char OperationMinus = '-';
 
         // TODO fill this class
+        private char? _operation;
+        private Complex _intermediateResult;
+
+        public Complex Value { get; set; }
+        public char? Operation
+        {
+            get => _operation;
+            set
+            {
+                if (Operation.HasValue)
+                {
+                    ComputeResult();
+                }
+                _operation = value;
+                _intermediateResult = Value;
+                Value = null;
+            }
+        }
+        public void Reset()
+        {
+            Value = null;
+            Operation = null;
+        }
+
+        public void ComputeResult()
+        {
+            switch (_operation)
+            {
+                case OperationPlus:
+                    Value = _intermediateResult.Plus(Value);
+                    break;
+                case OperationMinus:
+                    Value = _intermediateResult.Minus(Value);
+                    break;
+                default:
+                    break;
+            }
+            _operation = null;
+            _intermediateResult = null;
+        }
+
+        public override string ToString()
+        {
+            return $"Calculator shows Value {Value}, is storing operation {_operation} and an intermidiate result {_intermediateResult}";
+        }
     }
 }
